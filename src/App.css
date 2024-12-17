@@ -1,0 +1,291 @@
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+div {
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+/* Notification Styling */
+.notification {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Edit Contract Form */
+form {
+  background: #fefefe;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+form button.cancel {
+  background-color: #dc3545;
+}
+
+form button.cancel:hover {
+  background-color: #bd2130;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+/* Buttons */
+button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+button.edit {
+  background-color: #ffc107;
+}
+
+button.edit:hover {
+  background-color: #e0a800;
+}
+
+button.delete {
+  background-color: #dc3545;
+}
+
+button.delete:hover {
+  background-color: #c82333;
+}
+
+/* Pagination Styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Buttons General Styling */
+button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  margin: 3px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.edit {
+  background-color: #ffc107; /* Yellow for Edit */
+  color: #333;
+}
+
+button.edit:hover {
+  background-color: #e0a800;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button.delete {
+  background-color: #dc3545; /* Red for Delete */
+}
+
+button.delete:hover {
+  background-color: #c82333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+  background-color: #6c757d; /* Grey for disabled state */
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Filter and Pagination Buttons */
+button.filter,
+button.pagination {
+  background-color: #007bff;
+}
+
+button.filter:hover,
+button.pagination:hover {
+  background-color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button.filter:disabled,
+button.pagination:disabled {
+  background-color: #adb5bd;
+}
+
+/* Search and Filters Section */
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+input,
+select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Table Enhancements */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Pagination Container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+}
+
+/* Edit and Delete Buttons - Fix Visibility */
+button.edit,
+button.delete {
+  background-color: #ffc107; /* Yellow for Edit */
+  color: #fff; /* White text */
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px;
+  transition: background-color 0.2s ease-in-out;
+  opacity: 1; /* Ensure buttons are fully visible */
+}
+
+button.delete {
+  background-color: #dc3545; /* Red for Delete */
+}
+
+button.edit:hover {
+  background-color: #e0a800; /* Darker Yellow on hover */
+}
+
+button.delete:hover {
+  background-color: #c82333; /* Darker Red on hover */
+}
+
+/* Ensure Disabled State Looks Subtle */
+button.edit:disabled,
+button.delete:disabled {
+  background-color: #ccc; /* Grey background for disabled buttons */
+  color: #666; /* Dark grey text */
+  cursor: not-allowed; /* Disabled cursor */
+  opacity: 0.6; /* Slight transparency */
+}
