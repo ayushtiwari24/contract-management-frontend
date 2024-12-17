@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// Dynamically fetch API base URL from environment variables
 const api = axios.create({
   baseURL:
     process.env.REACT_APP_API_URL ||
