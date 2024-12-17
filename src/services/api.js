@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", // Backend URL
+  baseURL: process.env.REACT_APP_API_URL + "/api", // Environment variable for backend
 });
 
 export const getContracts = (params) => api.get("/contracts", { params });
