@@ -1,9 +1,13 @@
 import axios from "axios";
 
+// Backend URL for local testing
+const API_URL =
+  process.env.REACT_APP_API_URL ||
+  "https://contract-management-backend.onrender.com";
+
 const api = axios.create({
-  baseURL:
-    process.env.REACT_APP_API_URL ||
-    "https://contract-management-backend.onrender.com/api",
+  baseURL: `${API_URL}/api`, // This ensures /api prefix is added only once
+  headers: { "Content-Type": "application/json" },
 });
 
 export const getContracts = (params) => api.get("/contracts", { params });

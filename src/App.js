@@ -18,89 +18,104 @@ const App = () => {
   const [fileData, setFileData] = useState(null);
   const fileInputRef = useRef(null);
 
+  // Backend API URL for Socket.IO and fetch calls
+  const BACKEND_URL =
+    process.env.REACT_APP_API_URL ||
+    "https://contract-management-backend.onrender.com"; // Use localhost for local testing
+
   // Fetch contracts initially and whenever filters change
   useEffect(() => {
     fetchContracts();
 
-    const socket = io("http://localhost:5000");
+    // Initialize Socket.IO connection
+    const socket = io(BACKEND_URL, {
+      transports: ["websocket", "polling"],
+      path: "/socket.io", // Ensure correct path
+      reconnection: true,
+    });
 
+    // Socket.IO event handlers
+    socket.on("connect", () => console.log("Socket connected successfully."));
     socket.on("contract_created", () => {
       setNotification("New Contract Added!");
       fetchContracts();
     });
-
     socket.on("contract_updated", () => {
       setNotification("Contract Updated!");
       fetchContracts();
     });
-
     socket.on("contract_deleted", () => {
       setNotification("Contract Deleted!");
       fetchContracts();
     });
+    socket.on("connect_error", (error) => {
+      console.error("Socket.IO connection error:", error);
+    });
 
+    // Cleanup on unmount
     return () => socket.disconnect();
   }, [filters]);
 
+  // Fetch contracts from the backend
   const fetchContracts = async () => {
     try {
-      const response = await getContracts(filters);
+      const response = await getContracts(filters); // Uses correct API
       setContracts(response.data.contracts || []);
       setTotal(response.data.total || 0);
     } catch (error) {
       console.error("Error fetching contracts:", error);
+      setNotification("Failed to fetch contracts. Please try again later.");
     }
   };
 
+  // Handle file upload
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
         const jsonData = JSON.parse(event.target.result);
         setFileData(jsonData);
       } catch (err) {
-        alert("Invalid JSON format");
+        alert("Invalid JSON format.");
       }
     };
     reader.readAsText(file);
   };
 
+  // Submit uploaded file to the backend
   const handleSubmitFile = async () => {
-    if (fileData) {
-      try {
-        for (const contract of fileData) {
-          const response = await fetch("http://localhost:5000/api/contracts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(contract),
-          });
+    if (!fileData) return;
 
-          if (response.status === 409) {
-            const result = await response.json();
-            console.warn(`Duplicate contract: ${contract.client_name}`);
-            alert(`Duplicate contract skipped: ${contract.client_name}`);
-            continue;
-          }
+    try {
+      for (const contract of fileData) {
+        const response = await fetch(`${BACKEND_URL}/api/contracts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(contract),
+        });
 
-          if (!response.ok) {
-            throw new Error(
-              `Failed to upload contract: ${contract.client_name}`
-            );
-          }
+        if (response.status === 409) {
+          alert(`Duplicate contract skipped: ${contract.client_name}`);
+          continue;
         }
 
-        alert("Contracts uploaded successfully!");
-        setFileData(null);
-        fetchContracts();
-
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset the file input value
+        if (!response.ok) {
+          throw new Error(`Failed to upload contract: ${contract.client_name}`);
         }
-      } catch (err) {
-        console.error("Error uploading file:", err);
-        alert("An error occurred while uploading contracts.");
       }
+
+      alert("Contracts uploaded successfully!");
+      setFileData(null);
+      fetchContracts();
+
+      // Reset file input
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (err) {
+      console.error("Error uploading file:", err);
+      alert("An error occurred while uploading contracts.");
     }
   };
 
@@ -108,8 +123,10 @@ const App = () => {
     try {
       await deleteContract(id);
       alert("Contract deleted successfully!");
+      fetchContracts();
     } catch (error) {
       console.error("Error deleting contract:", error);
+      alert("Failed to delete the contract.");
     }
   };
 
@@ -120,15 +137,23 @@ const App = () => {
   const handleUpdateContract = async (e) => {
     e.preventDefault();
     try {
-      await fetch(`http://localhost:5000/api/contracts/${editingContract.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingContract),
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/api/contracts/${editingContract.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editingContract),
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to update contract.");
+
       alert("Contract updated successfully!");
       setEditingContract(null);
+      fetchContracts();
     } catch (err) {
       console.error("Error updating contract:", err);
+      alert("Failed to update the contract.");
     }
   };
 
