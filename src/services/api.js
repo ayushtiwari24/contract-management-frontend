@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// Dynamically fetch API base URL from environment variables
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL + "/api", // Environment variable for backend
+  baseURL:
+    process.env.REACT_APP_API_URL ||
+    "https://contract-management-backend.onrender.com/api",
 });
 
 export const getContracts = (params) => api.get("/contracts", { params });
